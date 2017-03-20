@@ -1,0 +1,7 @@
+*.workspace
+*.pdsbak
+funclist
+*.obj
+build/
+dist/
+nbproject/private/configurations.xml
