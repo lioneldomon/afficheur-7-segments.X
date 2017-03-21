@@ -5,3 +5,4 @@ funclist
 build/
 dist/
 nbproject/private/configurations.xml
+nbproject/private/private.xml
