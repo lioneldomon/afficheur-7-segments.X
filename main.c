@@ -42,6 +42,7 @@ void low_priority interrupt bassePriorite() {
     if (PIR1bits.ADIF) {
         PIR1bits.ADIF = 0;
         afficheurEtablitDigits(ADRESH);
+ //       afficheurEtablitDigits(200);
     }
 }
 
@@ -61,30 +62,31 @@ void initialisationHardware() {
     ANSELA = 0;
     ANSELC = 0;
     
-    TRISB = 1;
+    TRISB = 0;
     ANSELBbits.ANSB4 = 1;
     ADCON0 = 0b00101101;    // Active le convertisseur AD et AD11(RB4)
     ADCON2bits.ADFM = 0;    // Resultat dans registre ADRESH (ignore les 2 bits de poids faible)
-    ADCON2bits.ACQT=111;
+    ADCON2bits.ACQT=000;
     ADCON2bits.ADCS = 011;
     
     // Activer le temporisateur 1:
-    T1CONbits.TMR1ON =1;       // Active le temporisateur.
-    T1CONbits.RD16 = 0;       // Temporisateur de 8 bits.
-    T1CONbits.T1SYNC = 1;      // Pas de sychro.
-    T1CONbits.T1SOSCEN = 0;          // Pas de deuxième oscillateur
-    T1CONbits.T1CKPS1 = 0;         // Pas de diviseur
+    T1CONbits.TMR1ON =1;        // Active le temporisateur.
+    T1CONbits.RD16 = 0;         // Temporisateur de 8 bits.
+    T1CONbits.T1SYNC = 1;       // Pas de sychro.
+    T1CONbits.T1SOSCEN = 0;     // Pas de deuxième oscillateur
+    T1CONbits.T1CKPS1 = 0;      // Pas de diviseur
     T1CONbits.T1CKPS0 = 0;
     T1CONbits.TMR1CS1 = 0;      // Système clock
     T1CONbits.TMR1CS0 = 1;
-    T1GCONbits.TMR1GE = 0;      // Timer1/3/5 counts regardless of Timer1/3/5 gate function
+    T1GCONbits.TMR1GE = 0;      // Timer1 counts regardless of Timer1 gate function
     
     // Activer les interruptions:
     RCONbits.IPEN = 1;          // Active les niveaux d'interruptions.
     INTCONbits.GIEH = 1;        // Active les interruptions de haute priorité.
     INTCONbits.GIEL = 1;        // Active les interruptions de basse priorité.
     PIE1bits.TMR1IE = 1;        // Active les interruptions du TMR1
-    
+    PIE1bits.ADIE = 1;          // Active les interruptions de conv AD
+    IPR1bits.ADIP = 1;
 }
 
 /**
@@ -92,7 +94,7 @@ void initialisationHardware() {
  */
 void main(void) {
     initialisationHardware();
-    afficheurEtablitDigits(37);
+//    afficheurEtablitDigits(37);
     while(1);
 }
 #endif

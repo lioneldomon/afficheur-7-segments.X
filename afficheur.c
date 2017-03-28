@@ -2,6 +2,7 @@
 #include <xc.h>
 #include <stdio.h>
 
+
 /** Les digits de l'afficheur. */
 static unsigned char digits[2];
 
@@ -9,24 +10,33 @@ static unsigned char digits[2];
 static char ascii7Segments[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
 
 void afficheurEtablitDigits(char nombre) {
-    if(nombre > 99){
+    char dixaine = 0;
+//    temp = nombre/255;
+    //temp = nombre;
+    if(nombre >99){
         nombre = 99;
     }
-    else{
-        digits[0] = nombre/10;
-        digits[1] = nombre>>4;
-    }
+    while(nombre>=10){
+        nombre = nombre-10;
+        dixaine++;
+      }
+      digits[0]=dixaine;
+      digits[1]=nombre;
+        
+    //digits[0] = nombre/10;
+    //digits[1] = nombre%10;
+
 }
 
 unsigned char digit(unsigned char position) {
     
-static char convAsciiToBCD[]={0b00111111, 0b00000110, 0b01011011, 0b010011111, 0b01100110, 0b01101101, 0b01111101, 0b00000111, 0b01111111, 0b01101111};    
+static char tableDecode[10]={0b00111111, 0b00000110, 0b01011011, 0b01001111, 0b01100110, 0b01101101, 0b01111101, 0b00000111, 0b01111111, 0b01101111};    
     
     if(position == 0){
-        return convAsciiToBCD[digits[0]];
+        return ascii7Segments[digits[0]];
     }
     else{
-        return convAsciiToBCD[digits[1]];
+        return ascii7Segments[digits[1]];
     }
    
 }
