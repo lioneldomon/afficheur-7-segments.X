@@ -62,7 +62,7 @@ void initialisationHardware() {
     ANSELA = 0;
     ANSELC = 0;
     
-    TRISB = 0;
+ //   TRISB = 0;
     ANSELBbits.ANSB4 = 1;
     ADCON0 = 0b00101101;    // Active le convertisseur AD et AD11(RB4)
     ADCON2bits.ADFM = 0;    // Resultat dans registre ADRESH (ignore les 2 bits de poids faible)

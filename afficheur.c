@@ -11,7 +11,7 @@ static char ascii7Segments[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 
 
 void afficheurEtablitDigits(char nombre) {
     char dixaine = 0;
-//    temp = nombre/255;
+ //   nombre = nombre/255;
     //temp = nombre;
     if(nombre >99){
         nombre = 99;
