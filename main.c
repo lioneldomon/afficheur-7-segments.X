@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "test.h"
 #include "afficheur.h"
+#include <pic18f25k22.h>
 
 /**
  * Bits de configuration:
@@ -21,10 +22,10 @@ char nb=0;
 void low_priority interrupt bassePriorite() {
     static char n = 0;
     if (PIR1bits.TMR1IF) {
-        TMR1H = 178;
-        PIR1bits.TMR1IF = 0;
-        PORTA = digit(n);
-        switch(n) {
+        TMR1H = 178;                        // Mise de la valeur du timer1
+        PIR1bits.TMR1IF = 0;                // Clear du bit d'interruption du TMR1
+        PORTA = digit(n);                   // Place la valeur désirée sur le portC
+        switch(n) {                         // Choix de l'affichage multiplexé
             case 0:
                 PORTCbits.RC1 = 1;
                 PORTCbits.RC0 = 0;
@@ -36,13 +37,12 @@ void low_priority interrupt bassePriorite() {
                 n = 0;
                 break;
         }
-        ADCON0bits.GO = 1;
+        ADCON0bits.GO = 1;                  // Démarre une conversion AD
     }
     
-    if (PIR1bits.ADIF) {
-        PIR1bits.ADIF = 0;
-        afficheurEtablitDigits(ADRESH);
- //       afficheurEtablitDigits(200);
+    if (PIR1bits.ADIF) {                    // Si conversion AD terminée
+        PIR1bits.ADIF = 0;                  // Clear du bit d'interruption du convertisseur
+        afficheurEtablitDigits(ADRESH);     // Appel la fonction
     }
 }
 
@@ -94,7 +94,6 @@ void initialisationHardware() {
  */
 void main(void) {
     initialisationHardware();
-//    afficheurEtablitDigits(37);
     while(1);
 }
 #endif
