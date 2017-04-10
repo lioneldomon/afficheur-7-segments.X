@@ -54,20 +54,19 @@ void initialisationHardware() {
     TRISA = 0x00;       // Init port A en sortie
     TRISCbits.RC0 = 0;  // Init RC0 et RC1 en sortie
     TRISCbits.RC1 = 0;
+    TRISBbits.RB4 = 1;  // Init RB4 en entrée
     
     // Module Analogique
-    // RB4 en entrée analogique
     
     // Désactive les entrées analogiques des ports A et C:
     ANSELA = 0;
     ANSELC = 0;
     
- //   TRISB = 0;
-    ANSELBbits.ANSB4 = 1;
+    ANSELBbits.ANSB4 = 1;   // Active RB4 en entrée analogique
     ADCON0 = 0b00101101;    // Active le convertisseur AD et AD11(RB4)
     ADCON2bits.ADFM = 0;    // Resultat dans registre ADRESH (ignore les 2 bits de poids faible)
-    ADCON2bits.ACQT=000;
-    ADCON2bits.ADCS = 011;
+    ADCON2bits.ACQT = 000;  // Temps d'aquisition 000
+    ADCON2bits.ADCS = 011;  // Oscillateur interne
     
     // Activer le temporisateur 1:
     T1CONbits.TMR1ON =1;        // Active le temporisateur.

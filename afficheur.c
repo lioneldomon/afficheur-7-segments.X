@@ -11,10 +11,7 @@ static char ascii7Segments[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 
 
 void afficheurEtablitDigits(char nombre) {
     char dixaine = 0;
-    nombre = nombre/2.54;       // Conversion d'un nombre compris entre 0 et 255 en un
-                                // nombre compris entre 0 et 99
-                                // La méthode fonctionne mais n'est pas très présise, impossible d'avoir tous les % du potentiomètre
-    if(nombre >99){             // Valeur max 99         
+    if(nombre >=99){             // Valeur max 99         
         nombre = 99;
     }
     while(nombre>=10){          // Boucle de séparation dixaines/unités
@@ -23,20 +20,24 @@ void afficheurEtablitDigits(char nombre) {
       }
       digits[0]=dixaine;
       digits[1]=nombre;
-        
-    //digits[0] = nombre/10;
-    //digits[1] = nombre%10;
 
 }
 
 unsigned char digit(unsigned char position) {    
-    
+ 
+   
+            
     if(position == 0){
+        if(digits[0] == 0){
+            return 0;
+        }
         return ascii7Segments[digits[0]];
     }
     else{
         return ascii7Segments[digits[1]];
     }
+    
+
    
 }
 
